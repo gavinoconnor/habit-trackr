@@ -1,26 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+
+  state = {
+    users: [],
+    habits: []
+  }
+
+  fetchHabits = () => {
+  fetch("http://localhost:3000/api/habits")
+  .then(res => res.json())
+  .then(data => {
+    this.setState({
+      habits: data,
+      loading: false
+    })
+  })
 }
 
-export default App;
+componentDidMount(){
+    this.fetchHabits()
+  }
+
+  render() {
+    console.log(this.state.habits)
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is working!</p>
+        <button>Switch Name</button>
+      </div>
+    );
+  }
+
+}
