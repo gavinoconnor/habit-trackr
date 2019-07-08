@@ -6,10 +6,10 @@ export default class Profiles extends React.Component {
   render() {
     return (
       <div className="profiles">
-          {this.props.profiles ? (
-            this.props.profiles.map(profile => {
+          {this.props.users ? (
+            this.props.users.map(user => {
             return (
-              <ProfileCard key={profile.id} profile={profile}/>
+              <ProfileCard key={user.id} user={user}/>
             );
           })
         ) : (

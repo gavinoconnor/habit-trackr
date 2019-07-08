@@ -5,6 +5,8 @@ import NavBar from './containers/NavBar'
 import Profiles from './containers/Profiles'
 import Habits from './containers/Habits'
 
+import Jumbotron from 'react-bootstrap/Jumbotron'
+
 export default class App extends React.Component {
 
   state= {
@@ -41,9 +43,16 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <div className="app">
+        <div className="App">
           <NavBar />
-          <Route exact path="/" render={() => <div>This is your Home page</div>} />
+          <Route exact path="/" render={() => <div>
+            <Jumbotron fluid>
+            <h1>This is your home page</h1>
+              <p>
+                More information and styling to come.
+              </p>
+          </Jumbotron>
+        </div>} />
           <Route path="/profiles" render={() => <Profiles users={this.state.users}/>}/>
           <Route path="/habits" render={() => <Habits habits={this.state.habits}/>}/>
         </div>
