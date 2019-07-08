@@ -4,7 +4,6 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 const ProfileCard = props => {
-  console.log(props)
   return (
     <CardDeck style={{display: 'inline-flex', flexDirection: 'row'}}>
         <Card bg="info" border="primary" text="white" style={{flex: 1}}>
