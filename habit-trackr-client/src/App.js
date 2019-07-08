@@ -1,17 +1,18 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NavBar from './containers/NavBar'
-import Profiles from './containers/Profiles'
+import ProfilePage from './containers/ProfilePage'
 import Habits from './containers/Habits'
+import LoginForm from './components/LoginForm'
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 
 export default class App extends React.Component {
 
-  state= {
-    users: [],
-    currentUser: null,
+  state = {
+    user: null,
+    isSignedIn: true,
     habits: []
   }
 
@@ -25,26 +26,32 @@ export default class App extends React.Component {
     })
   }
 
-  fetchUsers = () => {
-    fetch("http://localhost:3000/api/users/")
+  fetchUser = () => {
+    fetch("http://localhost:3000/api/users/1")
     .then(res => res.json())
-    .then(users => {
+    .then(user => {
       this.setState({
-        users: users
+        user: user
       })
     })
   }
 
   componentDidMount() {
     this.fetchHabits();
-    this.fetchUsers();
+    this.fetchUser();
   }
+
+  setSignIn = isSignedIn => this.setState({ isSignedIn });
 
   render() {
     return (
       <Router>
         <div className="App">
-          <NavBar />
+          <NavBar
+            isSignedIn={this.state.isSignedIn}
+            setSignIn={this.setSignIn}
+            />
+          <Switch>
           <Route exact path="/" render={() => <div>
             <Jumbotron fluid>
             <h1>This is your home page</h1>
@@ -53,8 +60,9 @@ export default class App extends React.Component {
               </p>
           </Jumbotron>
         </div>} />
-          <Route path="/profiles" render={() => <Profiles users={this.state.users}/>}/>
+          {this.state.user ? <Route path="/profile" render={() => <ProfilePage user={this.state.user}/>}/> : <Route path="login" component={LoginForm}/>}
           <Route path="/habits" render={() => <Habits habits={this.state.habits}/>}/>
+        </Switch>
         </div>
       </Router>
     );
