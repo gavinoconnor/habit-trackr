@@ -21,7 +21,7 @@ class NavBar extends React.Component {
             <Link to="habits" style={{ color: '#CCC' }}>Habits</Link>
           </Nav>
           <Nav className="ml-auto">
-            <Link to="/signup"><Button variant="outline-light" href="/signup">Sign Up</Button></Link>
+            <Link to="/signup"><Button variant="outline-light">Sign Up</Button></Link>
             {this.props.isSignedIn ? (
               <Button variant="outline-light" onClick={() => this.props.setSignIn(false)}>Log Out</Button>
             ) : (

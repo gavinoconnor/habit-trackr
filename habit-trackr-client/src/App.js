@@ -6,6 +6,7 @@ import ProfilePage from './containers/ProfilePage'
 import Habits from './containers/Habits'
 import LoginForm from './components/LoginForm'
 import SignUpForm from './containers/SignUpForm'
+import Image from 'react-bootstrap/Image'
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 
@@ -55,16 +56,18 @@ export default class App extends React.Component {
           <Switch>
           <Route exact path="/" render={() => <div>
             <Jumbotron fluid>
-            <h1>This is your home page</h1>
+            <h1>Welcome to HabitTrackr</h1>
               <p>
-                More information and styling to come.
+                Our goal is to help you keep up with <em>your</em> goals<br />
+                by highlighting the achievements most important to you.<br />
               </p>
+              <Image src="./maxresdefault.jpg" fluid />
           </Jumbotron>
         </div>} />
-          {this.state.isSignedIn ? <Route path="/profile" render={() => <ProfilePage user={this.state.user}/>}/> : <Route path="/signup" render={() => <SignUpForm />}/>}
-          <Route path="/habits" render={() => <Habits habits={this.state.habits}/>}/>
-          <Route path="/signup" render={() => <SignUpForm />}/>
-        </Switch>
+            {this.state.isSignedIn ? <Route path="/profile" render={() => <ProfilePage user={this.state.user}/>}/> : <Route path="/signup" render={() => <SignUpForm />}/>}
+            <Route path="/habits" render={() => <Habits habits={this.state.habits}/>}/>
+            <Route path="/signup" render={() => <SignUpForm />}/>
+          </Switch>
         </div>
       </Router>
     );
