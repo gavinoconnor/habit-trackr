@@ -5,6 +5,7 @@ import NavBar from './containers/NavBar'
 import ProfilePage from './containers/ProfilePage'
 import Habits from './containers/Habits'
 import LoginForm from './components/LoginForm'
+import SignUpForm from './containers/SignUpForm'
 
 import Jumbotron from 'react-bootstrap/Jumbotron'
 
@@ -60,8 +61,9 @@ export default class App extends React.Component {
               </p>
           </Jumbotron>
         </div>} />
-          {this.state.user ? <Route path="/profile" render={() => <ProfilePage user={this.state.user}/>}/> : <Route path="login" component={LoginForm}/>}
+          {this.state.isSignedIn ? <Route path="/profile" render={() => <ProfilePage user={this.state.user}/>}/> : <Route path="/signup" render={() => <SignUpForm />}/>}
           <Route path="/habits" render={() => <Habits habits={this.state.habits}/>}/>
+          <Route path="/signup" render={() => <SignUpForm />}/>
         </Switch>
         </div>
       </Router>
