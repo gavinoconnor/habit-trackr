@@ -16,12 +16,12 @@ class NavBar extends React.Component {
       <Navbar bg="primary" variant="dark">
         <Navbar.Brand to="/">HabitTrackr</Navbar.Brand>
           <Nav className="mr-auto">
-            <Link to="/" style={{ color: '#FFF' }}>Home</Link>
-            <Link to="profile" style={{ color: '#FFF' }}>Profile</Link>
-            <Link to="habits" style={{ color: '#FFF' }}>Habits</Link>
+            <Link to="/" style={{ color: '#CCC' }}>Home</Link>&nbsp;&nbsp;
+            <Link to="profile" style={{ color: '#CCC' }}>Profile</Link>&nbsp;&nbsp;
+            <Link to="habits" style={{ color: '#CCC' }}>Habits</Link>
           </Nav>
           <Nav className="ml-auto">
-            <Button variant="outline-light">Sign Up</Button>
+            <Link to="/signup"><Button variant="outline-light" href="/signup">Sign Up</Button></Link>
             {this.props.isSignedIn ? (
               <Button variant="outline-light" onClick={() => this.props.setSignIn(false)}>Log Out</Button>
             ) : (
@@ -34,9 +34,3 @@ class NavBar extends React.Component {
 }
 
 export default NavBar
-
-// {isSignedIn ? (
-//         <button onClick={() => setSignIn(false)}>Sign out</button>
-//       ) : (
-//           <button onClick={() => setSignIn(true)}>Sign In</button>
-//         )}
