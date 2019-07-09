@@ -88,7 +88,7 @@ export default class SignUpForm extends React.Component {
             feedback="You must agree before submitting."
           />
         </Form.Group>
-        <Button type="submit">Submit form</Button>
+        <Button type="submit">Sign Up!</Button>
       </Form>
     );
   }

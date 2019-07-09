@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 const HabitCard = props => {
+  console.log(props)
   return (
     <CardDeck style={{display: 'inline-flex', flexDirection: 'row'}}>
         <Card bg="info" border="primary" text="white" style={{flex: 1}}>
@@ -14,7 +15,7 @@ const HabitCard = props => {
               Placeholder text about this specific habit.<br />
               <strong>Category: {props.habit.category}</strong>
             </Card.Text>
-            <Button variant="primary">Add Habit</Button>
+            <Button onClick={() => props.handleClick(props.habit)} variant="primary">Add Habit</Button>
           </Card.Body>
         </Card>
     </CardDeck>
