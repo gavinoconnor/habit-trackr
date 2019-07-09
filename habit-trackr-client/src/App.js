@@ -15,7 +15,9 @@ export default class App extends React.Component {
   state = {
     user: null,
     isSignedIn: true,
-    habits: []
+    habits: [],
+    userHabits: [],
+    searchTerm: ""
   }
 
   fetchHabits = () => {
@@ -33,7 +35,8 @@ export default class App extends React.Component {
     .then(res => res.json())
     .then(user => {
       this.setState({
-        user: user
+        user: user,
+        userHabits: user.habits
       })
     })
   }
@@ -45,7 +48,52 @@ export default class App extends React.Component {
 
   setSignIn = isSignedIn => this.setState({ isSignedIn });
 
+  setFilter = (newTerm) => {
+    this.setState({
+      searchTerm: newTerm
+    })
+  }
+  applyFilter = () => {
+   return this.state.habits.filter(habit => {
+     return habit.name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+   })
+ }
+
+ findUser = () => {
+
+ }
+
+ handleClick = (habitObj) => {
+   console.log("click", habitObj)
+   debugger
+   if(!this.state.habits.find(habit => habit.id === habitObj.id)) {
+     let addUserHabits = [...this.state.userHabits, habitObj]
+     this.setState ({
+       userHabits: addUserHabits
+     })
+   }
+   this.fetchUserHabits(habitObj);
+ }
+
+ fetchUserHabits = (habitObj) => {
+   const data = {
+     user_id: this.state.user.id,
+     habit_id: habitObj.id
+   }
+   console.log("fetch data", data)
+   fetch("http://localhost:3000/api/user_habits", {
+     method: "POST",
+       headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+ }
+
+
   render() {
+    console.log("in app, state: ", this.state)
     return (
       <Router>
         <div className="App">
@@ -64,8 +112,8 @@ export default class App extends React.Component {
               <Image src="./maxresdefault.jpg" fluid />
           </Jumbotron>
         </div>} />
-            {this.state.isSignedIn ? <Route path="/profile" render={() => <ProfilePage user={this.state.user}/>}/> : <Route path="/signup" render={() => <SignUpForm />}/>}
-            <Route path="/habits" render={() => <Habits habits={this.state.habits}/>}/>
+            {this.state.isSignedIn ? <Route path="/profile" render={() => <ProfilePage userHabits={this.state.userHabits} user={this.state.user}/>}/> : <Route path="/signup" render={() => <SignUpForm />}/>}
+            <Route path="/habits" render={() => <Habits handleClick={this.handleClick} searchTerm={this.state.searchTerm} setFilter={this.setFilter} habits={this.applyFilter()}/>}/>
             <Route path="/signup" render={() => <SignUpForm />}/>
           </Switch>
         </div>
