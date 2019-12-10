@@ -1,95 +1,112 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
-export default class SignUpForm extends React.Component {
-
+class SignUpForm extends React.Component {
   state = {
-    validated: false
-  }
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: "",
+	}
 
-  handleSubmit(event) {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+  handleChange = (event) => {
+		this.setState({
+			[event.target.name]: event.target.value
+		})
+	}
+
+  createUser = () => {
+		fetch("http://localhost:3000/users", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"Accepts": "application/json",
+			},
+			body: JSON.stringify(this.state)
+		})
+		.then(res => res.json())
+		.then((response) => {
+			if (response.errors){
+				alert(response.errors)
+			} else {
+				localStorage.setItem("token", response.token)
+				this.props.setCurrentUser(response.user)
+				this.props.history.push(`/users/${response.user.id}`)
+			}
+		})
+	}
+
+  handleSubmit = () => {
+    if(this.state.password) {
+      this.createUser()
+    } else {
+      alert("Please enter a valid password")
     }
-    this.setState({ validated: true });
-  }
+}
 
   render() {
-    const { validated } = this.state;
+    const style = {
+      paddingTop: '20px'
+    }
+
     return (
-      <Form
-        noValidate
-        validated={validated}
-        onSubmit={e => this.handleSubmit(e)}
-      >
-        <Form.Row>
-          <Form.Group as={Col} md="4" controlId="validationCustom01">
-            <Form.Label>First name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="First name"
-            />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustom02">
-            <Form.Label>Last name</Form.Label>
-            <Form.Control
-              required
-              type="text"
-              placeholder="Last name"
-            />
-            <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="4" controlId="validationCustomUsername">
-            <Form.Label>Username</Form.Label>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-              </InputGroup.Prepend>
+      <div className="container" style={style}>
+        <Form>
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridFirstName">
+              <Form.Label>First Name</Form.Label>
               <Form.Control
+                onChange={this.handleChange}
                 type="text"
-                placeholder="Username"
-                aria-describedby="inputGroupPrepend"
-                required
+                placeholder="Enter First Name"
+                name="firstName"
+                value={this.state.firstName}
               />
-              <Form.Control.Feedback type="invalid">
-                Please choose a username.
-              </Form.Control.Feedback>
-            </InputGroup>
-          </Form.Group>
-        </Form.Row>
-        <Form.Row>
-          <Form.Group as={Col} md="6" controlId="validationCustom04">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="text" placeholder="Email" required />
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid email.
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md="6" controlId="validationCustom05">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="text" placeholder="Password" required />
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid zip.
-            </Form.Control.Feedback>
-          </Form.Group>
-        </Form.Row>
-        <Form.Group>
-          <Form.Check
-            required
-            label="Agree to terms and conditions"
-            feedback="You must agree before submitting."
-          />
-        </Form.Group>
-        <Button type="submit">Sign Up!</Button>
-      </Form>
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridLastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                onChange={this.handleChange}
+                type="text"
+                placeholder="Enter Last Name"
+                name="lastName"
+                value={this.state.lastName} />
+            </Form.Group>
+          </Form.Row>
+
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridEmail">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                onChange={this.handleChange}
+                type="email"
+                placeholder="Enter email"
+                name="email"
+                value={this.state.email}
+                />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="formGridPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                onChange={this.handleChange}
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={this.state.password} />
+            </Form.Group>
+          </Form.Row>
+          <Button type="submit" href="profile">
+            Submit
+          </Button>
+        </Form>
+      </div>
     );
+  };
+
   }
-}
+
+export default SignUpForm;

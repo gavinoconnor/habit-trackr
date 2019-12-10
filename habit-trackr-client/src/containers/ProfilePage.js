@@ -2,20 +2,25 @@ import React from 'react'
 import ProfileCard from '../components/ProfileCard'
 import HabitCard from '../components/HabitCard'
 
-export default class ProfilePage extends React.Component {
+class ProfilePage extends React.Component {
 
   render() {
-    console.log(this.props)
-
+    const style = {
+      paddingTop: '20px'
+    }
+    console.log("Profile page:", this.props.user)
+    if(!this.props.user) {
+      return <div>"Loading..."</div>
+    }
     return (
-      <div className="profile">
+      <div className="profile" style={style}>
         {this.props.user ? (
             <ProfileCard user={this.props.user}/>
         ) : (
           <h3>Nope</h3>
         )}
         <div className="habit-container">
-          {this.props.userHabits.map(habit => {
+          {this.props.user.habits.map(habit => {
             return <HabitCard key={habit.id} habit={habit}/>
           })}
         </div>
@@ -23,3 +28,5 @@ export default class ProfilePage extends React.Component {
     )
   }
 }
+
+export default ProfilePage;

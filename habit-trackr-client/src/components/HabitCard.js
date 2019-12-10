@@ -1,24 +1,24 @@
 import React from 'react';
-import CardDeck from 'react-bootstrap/CardDeck';
+// import CardDeck from 'react-bootstrap/CardDeck';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
 
 const HabitCard = props => {
-  console.log(props)
   return (
-    <CardDeck style={{display: 'inline-flex', flexDirection: 'row'}}>
-        <Card bg="info" border="primary" text="white" style={{flex: 1}}>
-          <Card.Img src="" alt=""/>
-          <Card.Body>
-            <Card.Title>{props.habit.name}</Card.Title>
-            <Card.Text>
-              Placeholder text about this specific habit.<br />
-              <strong>Category: {props.habit.category}</strong>
-            </Card.Text>
-            <Button onClick={() => props.handleClick(props.habit)} variant="primary">Add Habit</Button>
-          </Card.Body>
-        </Card>
-    </CardDeck>
+      // <Col sm={3}>
+          <Card style={{display: 'flex'}}>
+            <Card.Img src={props.habit.img} alt=""/>
+            <Card.Body>
+              <Card.Title>{props.habit.name}</Card.Title>
+              <Card.Text>
+                Placeholder text about this specific habit.<br />
+                <strong>Category: {props.habit.category}</strong>
+              </Card.Text>
+              <Button onClick={() => props.handleClick(props.habit)} variant="primary">Add Habit</Button>
+            </Card.Body>
+          </Card>
+      // </Col>
   )
 
 }
